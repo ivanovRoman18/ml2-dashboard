@@ -91,17 +91,17 @@ elif page == "Визуализации":
     ax.set_title('Корреляционная матрица')
     st.pyplot(fig)
     st.caption("Насыщенные красные/синие клетки указывают на сильную положительную/отрицательную корреляцию.")
-    
+        
     st.subheader("3. Зависимость общего здоровья от оставшегося времени")
     fig2, ax2 = plt.subplots(figsize=(10, 6))
-    sns.regplot(x='time_left', y='total_health', data=df, lowess=True, 
+    # Используем regplot с lowess=False (по умолчанию OLS) – не требует statsmodels
+    sns.regplot(x='time_left', y='total_health', data=df, lowess=False,
                 scatter_kws={'alpha':0.1, 's':1}, line_kws={'color':'red', 'lw':2}, ax=ax2)
     ax2.set_xlabel('Оставшееся время (сек)')
     ax2.set_ylabel('Суммарное здоровье')
-    ax2.set_title('Общее здоровье vs время раунда (сглаженный тренд)')
+    ax2.set_title('Общее здоровье vs время раунда (линейный тренд)')
     st.pyplot(fig2)
-    st.write("**Интерпретация:** в начале раунда (большое время) здоровье максимально ≈1000, к концу раунда оно снижается. Красная линия показывает плавную тенденцию.")
-    
+    st.write("**Интерпретация:** в начале раунда здоровье максимально, к концу снижается. Красная линия — линейная аппроксимация.")
     st.subheader("4. Средние деньги команд по картам")
     map_columns = [col for col in df.columns if col.startswith('map_de_')]
     def get_map(row):
