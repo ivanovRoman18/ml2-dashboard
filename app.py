@@ -5,7 +5,6 @@ import pickle
 import joblib
 import lightgbm as lgb
 from catboost import CatBoostClassifier
-from tensorflow.keras.models import load_model
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, StackingClassifier
 import matplotlib.pyplot as plt
@@ -34,7 +33,8 @@ def load_all_models():
     with open('models/ml5_stacking.pkl', 'rb') as f:
         stacking = pickle.load(f)
     
-    keras_model = load_model('models/ml6_keras_model.h5')
+    with open('models/ml6_sklearn_mlp.pkl', 'rb') as f:
+        mlp_model = pickle.load(f)
     
     return scaler, selector, logreg, lgbm, cat, rf, stacking, keras_model
 
@@ -269,8 +269,8 @@ with st.sidebar.expander("📁 Загрузить CSV с примерами"):
                     probs = stacking.predict_proba(X_batch_selected)[:, 1]
                     preds = stacking.predict(X_batch_selected)
                 else:  
-                    probs = keras_model.predict(X_batch_selected, verbose=0).flatten()
-                    preds = (probs > 0.5).astype(int)
+                    probs = mlp_model.predict_proba(input_selected)[:, 1]
+                    preds = mlp_model.predict(input_selected)
                 
                 result_df = df_batch.copy()
                 result_df['Probability_bomb'] = probs
