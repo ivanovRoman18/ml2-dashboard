@@ -18,27 +18,20 @@ st.markdown("---")
 def load_all_models():
     scaler = joblib.load('models/scaler_class.pkl')
     selector = joblib.load('models/selector_class.pkl')
-    
     with open('models/ml1_logreg.pkl', 'rb') as f:
         logreg = pickle.load(f)
-    
     lgbm = lgb.Booster(model_file='models/ml2_lightgbm.txt')
-    
     cat = CatBoostClassifier()
     cat.load_model('models/ml3_catboost.cbm')
-    
     with open('models/ml4_rf.pkl', 'rb') as f:
         rf = pickle.load(f)
-    
     with open('models/ml5_stacking.pkl', 'rb') as f:
         stacking = pickle.load(f)
-    
     with open('models/ml6_sklearn_mlp.pkl', 'rb') as f:
         mlp_model = pickle.load(f)
-    
-    return scaler, selector, logreg, lgbm, cat, rf, stacking, keras_model
+    return scaler, selector, logreg, lgbm, cat, rf, stacking, mlp_model
 
-scaler, selector, logreg, lgbm, cat, rf, stacking, keras_model = load_all_models()
+scaler, selector, logreg, lgbm, cat, rf, stacking, mlp_model = load_all_models()
 
 feature_names = [
 'time_left', 'ct_score', 't_score', 'ct_health', 't_health', 'ct_armor', 't_armor',
@@ -215,8 +208,8 @@ else:
         elif model_choice == "ML5: Stacking":
             prob = stacking.predict_proba(input_selected)[0, 1]
             pred = stacking.predict(input_selected)[0]
-        else:  
-            prob = keras_model.predict(input_selected, verbose=0)[0, 0]
+        elif model_choice == "ML6: Neural Network (sklearn MLP)":
+            prob = mlp_model.predict_proba(input_selected)[0, 1]
             pred = int(prob > 0.5)
         
         st.subheader("Результат предсказания")
