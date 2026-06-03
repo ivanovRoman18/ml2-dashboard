@@ -49,8 +49,8 @@ page = st.sidebar.radio(
 
 if page == "О разработчике":
     st.header("Разработчик")
-    st.write("**ФИО:** [Введите ваше ФИО]")
-    st.write("**Группа:** [Введите группу]")
+    st.write("**ФИО:** Иванов Роман Геннадьевич")
+    st.write("**Группа:** ФИТ-241")
     st.image("ргр.jpg", width=200, caption="Фото")  
     st.write("**Тема РГР:** Разработка Web-приложения для инференса ML моделей и анализа данных (CS:GO Bomb Planting Prediction)")
 
