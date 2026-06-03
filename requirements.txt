@@ -5,7 +5,7 @@ scikit-learn
 joblib
 lightgbm
 catboost
-tensorflow
+tensorflow==2.15.0
 matplotlib
 seaborn
 scikeras
