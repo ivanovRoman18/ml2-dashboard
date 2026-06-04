@@ -71,7 +71,9 @@ elif page == "О данных":
     - Стандартизация числовых признаков (`StandardScaler`).
     - Отбор признаков (`SelectKBest`, k=14) для ускорения и снижения шума.
     """)
-
+    st.subheader("Пример данных (первые 10 строк)")
+    df = pd.read_csv('csochka.csv')
+    st.dataframe(df.head(10))
 elif page == "Визуализации":
     st.header("Исследовательский анализ данных (EDA)")
     df = pd.read_csv('csochka.csv')
